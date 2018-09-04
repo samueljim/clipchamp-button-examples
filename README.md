@@ -20,3 +20,5 @@ Usage:
 | output | where you want the uploaded file to end up |  dummy, blob, azure, s3, youtube, gdrive, dropbox |
 | title | the words that apear at top of the widget | upload with clipchamp |
 | lalel | what will be written on to the button | Upload here |
+
+this interpretation of the clipchamp api needs polish and testing 
