@@ -28,4 +28,16 @@ body {
 </clipchamp-button>
   </div>
 </body>
+<script>
+  const clip = document.querySelector('clipchamp-button');
+clip.addEventListener('onVideoCreated', function (event) {
+    console.log('onVideoCreated:', event.detail);
+  });
+clip.addEventListener('onPreviewAvailable', function (event) {
+    console.log('onPreviewAvailable:', event.detail);
+  });
+clip.addEventListener('onUploadComplete', function (event) {
+    console.log('onUploadComplete:', event.detail);
+  });
+</script>
 </html>

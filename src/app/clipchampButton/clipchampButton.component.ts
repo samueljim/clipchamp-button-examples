@@ -1,10 +1,9 @@
 import {
-  Input,
   Component,
-  OnInit,
-  ViewEncapsulation,
   EventEmitter,
-  Output
+  Input,
+  Output,
+  ViewEncapsulation
 } from "@angular/core";
 
 declare global {
@@ -37,29 +36,40 @@ export class clipchampButton {
   public output = "dummy";
   @Input()
   public title = "Upload a video with clipchamp";
-  // @Output()
-  // clipchampMsg = new EventEmitter<string>();
-  // private msg = "every thing is a okay";
-  
+  @Input()
+  public logo = "https://api.clipchamp.com/static/button/images/logo.svg";
+
+  @Output()
+  public clicked: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public onPreviewAvailable: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public onUploadComplete: EventEmitter<any> = new EventEmitter();
+  @Output()
+  public onVideoCreated: EventEmitter<any> = new EventEmitter();
+
   handleClick() {
-    console.log("chipchamp");
-    // this.clipchampMsg.emit(this.msg);
-    window.clipchamp.update({
-      title: this.title,
-      output: this.output,
-      style: {
-        url: this.style
-      }
-    });
+    console.log("chipchamp trigged");
+    this.clicked.emit("Clicked");
     window.clipchamp.open();
   }
 
   injectScript() {
     const script = document.createElement("script");
-    script.onload = function() {
-      window.clipchamp = clipchamp(this.clipchampOptions);
-    }.bind(this);
     script.src = `https://api.clipchamp.com/${this.api}/button.js`;
+    script.onload = function() {
+      window.clipchamp = clipchamp({
+        title: this.title,
+        logo: this.logo,
+        style: {
+          url: this.style
+        },
+        output: this.output,
+        onVideoCreated: data => this.onVideoCreated.emit(data),
+        onUploadComplete: data => this.onUploadComplete.emit(data),
+        onPreviewAvailable: data => this.onPreviewAvailable.emit(data)
+      });
+    }.bind(this);
     document.body.appendChild(script);
   }
 
